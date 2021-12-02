@@ -1,17 +1,38 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    {% for todo in todos%}
-    <div>
-        <h2>{{todo.title}}</h2>
-        <p> {{todo.description}}</p>        
-    </div>
-    {% endfor%}
-</body>
-</html>
+{% extends "base.html" %}
+
+{% block body %}
+    {% for todo in todos %}
+        <div class='todo-container'>
+            <article class="media content-section">
+                 <div class="media-body">
+                   <h2><a class="todo-title" href="{{ url_for('get_todo', id=todo.id) }}">{{ todo.title }}</a></h2>
+                   <p class="todo-content">{{ todo.description }}</p>
+                   {% if todo.is_done%}
+
+                   <h2><a class="todo-title" href="{{ url_for('done_todo', id=todo.id) }}">done</a></h2>
+                   <h2><a class="todo-title" href="{{ url_for('edit_todo', id=todo.id) }}">edit</a></h2>
+                   <h2><a class="todo-title" href="{{ url_for('delete_todo', id=todo.id) }}">delete</a></h2>
+                   <h3>todo_id: {{ todo.id}}</h3>
+                   <h3>todo_id: {{ todo.is_done}}</h3>
+
+                   {% else %}
+                   <h2><a class="todo-title" href="{{ url_for('done_todo', id=todo.id) }}">un_done</a></h2>
+                   <h2><a class="todo-title" href="{{ url_for('edit_todo', id=todo.id) }}">edit</a></h2>
+                   <h2><a class="todo-title" href="{{ url_for('delete_todo', id=todo.id) }}">delete</a></h2>
+                   <h3>todo_id: {{ todo.id}}</h3>
+                   <h3>todo_id: {{ todo.is_done}}</h3>
+
+                    
+
+                   {% endif %}
+                   <div class="todo-metadata d-flex justify-content-between">
+                       <small class="text-muted">Created At: {{ todo.created_at }}</small>
+                    </div>
+                
+
+                 </div>
+               </article>
+        </div>
+    {% endfor %}
+
+{% endblock %}
